@@ -1,0 +1,120 @@
+# Swagger YAML file with demonstration examples.
+# Be aware that YAML has indentation based scoping.
+#
+# Code completion support is available in the swagger: "2.0"
+# editor, and many editors, so you can try typing to see options.
+
+# Set the Swagger specification version, which is currently 2.0.
+# To find the current version, see https://swagger.io
+swagger: '2.0'
+
+# This is your document metadata, which is the information
+# about your specific API that is contained in this file.
+info:
+  title: Demo Swagger
+  description: Demonstration of Swagger specification
+  # We use semantic versioning; see https://semver.org/
+  # For practical reasons, we recommend use the version
+  # number 1.0.0 as soon as the API is stable for users.
+  # Before the API is stable, use a number less than 1.
+  version: "0.0.0"
+
+# The scheme we want is HTTPS for secure web services
+# The host is our fully qualified host name,
+# and the base path is our web service URL path.
+schemes:
+  - https
+
+# The host and base path of your API both control
+# what an API URL will look like for a typical user.
+#
+# Some teams like to use URLs that prepend with "api"
+# such as "api.example.com"; other teams like to use
+# URLS that append "api" such as "example.com/api".
+#
+# Our preference is to omit the word "api" in the URL,
+# because we like to use an entire host for the API.
+# If your host needs to support multiple APIs, or an
+# typical web application plus an API, then you may 
+# want to put "api" somewhere in the host or base path.
+host: demo.example.com
+basePath: /
+
+# Define the MIME content types that this API consumes 
+# and produces. This demo is a typical JSON REST API,
+# so we list the two common JSON MIME types.
+consumes:
+  - application/vnd.api+json
+  - application/json
+produces:
+  - application/vnd.api+json
+  - application/json
+
+# Describe the API paths i.e. the API endpoints.
+#
+# The paths section tends to be the largest section
+# in a typical Swagger file, because it defines all the
+# endpoints of the API as well as describes all the inputs
+# and outputs such as query parameters and input fields.
+#
+# Each path is essentially a URL route. For example, we define
+# a path "/items", and it would be usable by creating a URL that
+# uses the host and basename, then appends the path.
+#
+# For example, if the scheme is "https", and the host is "foo.com"
+# and the base path is "/bar", and the path is "/items", then the
+# resulting URL is "https://foo.com/bar/items".
+paths:
+  # Each entry in this section at this level is a path endpoint.
+  # A typical REST endpoint with typical URLs uses plural routes.
+  # For example, we define "/persons" as the route, not "/person".
+  /persons:
+    # This is a HTTP operation. 
+    # The HTTP operation is typically either "get" or "put".
+    get:
+      # Describe this verb here. Note: you can use plain text,
+      # or markdown, or even typical HTML if it is quoted.
+      # Swagger YAML has a syntax where you can wrap lines by
+      # starting with a pipe symbol, but we prefer to use typiocal
+      # double-quoted syntax because the Swagger editor has issues
+      # with color highlighting of pipe symbol text.
+      description: "Gets `Person` objects. Optional query param of **size** determines the size of the returned array"
+      # Swagger documentation generators use tags as navigation
+      # aids, such as a documentation web page showing a list of
+      # clickable tags that navigate to those sections of the docs.
+      # For this demo, we use tags that correspond to the object model.
+      # For example, all our item-related paths use the tag "Items".
+      # We prefer to use sentence-case tags, rather than lower-case tags,
+      # because it makes the documentation a little bit prettier.
+      tags:
+        - Persons
+      # This is an array of GET operation parameters.
+      # The parameters specify the route's potential query parameters.
+      parameters:
+        # An example parameter that is in query and is required
+        -
+          name: size
+          in: query
+          description: Size of array
+          required: true
+          type: number
+          format: double
+      # Expected responses for this operation:
+      responses:
+        # Response code
+        200:
+          description: Successful response
+          # A schema describing your response object.
+          # Use JSON Schema format
+          schema:
+            title: ArrayOfPersons
+            type: array
+            items:
+              title: Person
+              type: object
+              properties:
+                name:
+                  type: string
+                single:
+                  type: boolean
+                  
