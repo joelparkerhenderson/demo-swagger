@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Swagger YAML file with demonstration examples.
 # Be aware that YAML has indentation based scoping.
 #
@@ -43,12 +44,24 @@ basePath: /
 # Define the MIME content types that this API consumes 
 # and produces. This demo is a typical JSON REST API,
 # so we list the two common JSON MIME types.
+=======
+swagger: "2.0"
+info:
+  title: Demo Swagger
+  description: Demonstration of Swagger specification
+  version: 1.0.0
+schemes:
+  - https
+host: demo.example.com
+basePath: /
+>>>>>>> Add more examples
 consumes:
   - application/vnd.api+json
   - application/json
 produces:
   - application/vnd.api+json
   - application/json
+<<<<<<< HEAD
 
 # Describe the API paths i.e. the API endpoints.
 #
@@ -118,3 +131,497 @@ paths:
                 single:
                   type: boolean
                   
+=======
+paths:
+  "/users":
+    get:
+      summary: Get a list of users
+      description: "<p>Get a list of users.</p>\n<p><a href=\"examples/users/list.html\">Examples</a></p>\n"
+      tags:
+        - Users
+      parameters:
+        - $ref: "#/parameters/authentication_token"
+      responses:
+        "200":
+          description: Ok
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/users"
+        default:
+          $ref: "#/responses/error"
+    put:
+      summary: Create one user.
+      tags:
+        - Users
+      description: "<p>Create one user.</p>\n<p><a href=\"examples/users/create.html\">Examples</a></p>\n"
+      parameters:
+        - $ref: "#/parameters/authentication_token"
+        - $ref: "#/parameters/name_input_required"
+        - $ref: "#/parameters/note_input"
+        - $ref: "#/parameters/image_input"
+        - $ref: "#/parameters/tagging_input"
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/users"
+        default:
+          $ref: "#/responses/error"
+  "/users/{id}":
+    get:
+      summary: Get one user
+      description: "<p>Get one user.</p>\n<p><a href=\"examples/users/show.html\">Examples</a></p>\n"
+      tags:
+        - users
+      parameters:
+        - $ref: "#/parameters/authentication_token"
+        - $ref: "#/parameters/id_path"
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: "#/definitions/user-response-data"
+        default:
+          $ref: "#/responses/error"
+  "/items":
+    get:
+      summary: Get a list of items.
+      tags:
+        - Items
+      description: "<p>Get a list of items.</p>\n<p><a href=\"examples/items/list.html\">Examples</a></p>\n"
+      parameters:
+        - $ref: "#/parameters/authentication_token"
+        - $ref: "#/parameters/sort_query"
+        - $ref: "#/parameters/limit_query"
+        - $ref: "#/parameters/offset_query"
+        - $ref: "#/parameters/page_number_query"
+        - $ref: "#/parameters/page_size_query"
+      responses:
+        "200":
+          description: Ok
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/items"
+        default:
+          $ref: "#/responses/error"
+    put:
+      summary: Create one item.
+      tags:
+        - Items
+      description: "<p>Create one item.</p>\n<p><a href=\"examples/items/create.html\">Examples</a></p>\n"
+      parameters:
+        - $ref: "#/parameters/authentication_token"
+        - $ref: "#/parameters/name_input_required"
+        - $ref: "#/parameters/note_input"
+        - $ref: "#/parameters/image_input"
+        - $ref: "#/parameters/tagging_input"
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/items"
+        default:
+          $ref: "#/responses/error"
+  "/items/{id}":
+    get:
+      summary: Get one item.
+      tags:
+        - Items
+      description: "<p>Get one item.</p>\n<p><a href=\"examples/items/show.html\">Examples</a></p>\n"
+      parameters:
+        - $ref: "#/parameters/authentication_token"
+        - $ref: "#/parameters/id_path"
+      responses:
+        "200":
+          description: Ok
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/items"
+        default:
+          $ref: "#/responses/error"
+  "/sessions":
+    get:
+      summary: Get a list of sessions
+      description: "<p>Get a list of sessions.</p>\n<p><a href=\"examples/sesssions/index.html\">Examples</a></p>\n"
+      tags:
+        - Sessions
+      parameters:
+        - $ref: "#/parameters/authentication_token"
+        - $ref: "#/parameters/sort_query"
+        - $ref: "#/parameters/limit_query"
+        - $ref: "#/parameters/offset_query"
+        - $ref: "#/parameters/page_number_query"
+        - $ref: "#/parameters/page_size_query"
+      responses:
+        "200":
+          description: Ok
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/sessions"
+        default:
+          $ref: "#/responses/error"
+    put:
+      summary: Create a session
+      description: "<p>Create a session.</p>\n<p>The response contains the secure authentication token.</p>\n<p><a href=\"examples/sesssions/create.html\">Examples</a></p>\n"
+      tags:
+        - Sessions
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/session-data"
+      responses:
+        "201":
+          description: OK
+          schema:
+            $ref: "#/definitions/session-response-data"
+        default:
+          $ref: "#/responses/error"
+parameters:
+  authentication_token:
+    name: AUTHENTICATION-TOKEN
+    in: header
+    description: "<p>Authentication token that verifies the app request is approved.</p>\n<p>Example: 25ded48cf49bf9713e02b2f02e614f13.</p>\n"
+    type: string
+    format: zid
+    required: true
+  id_path:
+    name: id
+    description: "<p>Id.</p>\n<p>Example: 12345.</p>\n"
+    type: integer
+    format: id
+    in: path
+    required: true
+  limit_query:
+    name: limit
+    description: "<p>Limit the number of records in the result set.</p>\n<p>Example: 10 means return at most 10 results.</p>\n"
+    type: integer
+    format: count
+    in: query
+    required: false
+    minimum: 0
+    default: 10
+  name_input:
+    name: name
+    description: "<p>Name.</p>\n<p>Example: \"Foo\".</p>\n"
+    type: string
+    format: freeform
+    in: formData
+    required: false
+  note_input:
+    name: note
+    description: "<p>Note.</p>\n<p>Example: \"This is an example note\".</p>\n"
+    type: string
+    format: freeform
+    in: formData
+    required: false
+  offset_query:
+    name: offset
+    description: "<p>Offset records.</p>\n<p>Example: 10 means retrieve the 10th result onward.</p>\n"
+    type: integer
+    format: count
+    in: query
+    required: false
+    minimum: 0
+    default: 0
+  page_number_query:
+    name: "page[number]"
+    description: "<p>Pagination page number to return.</p>\n<p>Example: 10 means retrieve the 10th page onward.</p>\n"
+    type: integer
+    format: count
+    in: query
+    required: false
+    minimum: 1
+    default: 1
+  page_size_query:
+    name: "page[size]"
+    description: "<p>Pagination number of items per page to return.</p>\n<p>Example: 10 means retrieve 10 results per page.</p>\n"
+    type: integer
+    format: count
+    in: query
+    required: false
+    minimum: 0
+    default: 10
+  tagging_input:
+    name: tagging
+    description: "<p>Tagging list.</p>\n<p>Example: \"foo, goo, hoo\".</p>\n<p>The tagging list is comma-separated, and spaces-optional, and case-insenstive.</p>\n"
+    type: string
+    format: freeform
+    in: formData
+    required: false
+  type_input_required:
+    name: type
+    description: "<p>The JSON API resource data type name.</p>\n<p>Example: \"users\".</p>\n<p>This must match the <a href=\"http://jsonapi.org/format\">JSON API format</a></p>\n"
+    type: string
+    format: freeform
+    in: formData
+    required: true
+  sort_query:
+    name: sort
+    description: "<p>Sort results by this parameter, which is a comma separated list of attributes, each preceeded by a plus sign or minus sign.</p>\n<p>Example: \"+foo,-goo\" sorts by ascending \"foo\" field the by descending \"goo\" field.</p>\n"
+    type: string
+    format: bbSort
+    in: query
+    required: false
+definitions:
+  pagination-links:
+    required:
+      - first
+      - last
+    properties:
+      first:
+        $ref: "#/definitions/uri_with_pagination"
+      last:
+        $ref: "#/definitions/uri_with_pagination"
+  success-response-data:
+    type: object
+    required:
+      - data
+    properties:
+      data:
+        $ref: "#/definitions/success-response"
+  success-response:
+    type: object
+    required:
+      - message
+    properties:
+      message:
+        type: string
+        default: success
+  user-response-data:
+    type: object
+    required:
+      - data
+    properties:
+      data:
+        $ref: "#/definitions/user-response"
+  user-response:
+    type: object
+    required:
+      - id
+      - email
+      - type
+    properties:
+      type:
+        type: string
+        default: users
+      id:
+        type: integer
+      name:
+        type: string
+      note:
+        type: string
+      tags:
+        type: string
+      image:
+        type: uri
+  item:
+    properties:
+      id:
+        $ref: "#/definitions/id"
+      zid:
+        $ref: "#/definitions/zid"
+      created_at:
+        $ref: "#/definitions/created_at"
+      updated_at:
+        $ref: "#/definitions/updated_at"
+      updated_at:
+        $ref: "#/definitions/deleted_at"
+      image_url:
+        $ref: "#/definitions/image_url"
+  session-response-data:
+    type: object
+    required:
+      - data
+    properties:
+      data:
+        $ref: "#/definitions/session-response"
+  session-data:
+    type: object
+    required:
+      - data
+    properties:
+      data:
+        $ref: "#/definitions/session"
+  session-response:
+    type: object
+    required:
+      - authentication_token
+      - type
+      - user
+    properties:
+      authentication_token:
+        type: string
+        description: token to be used in the header of authenticated requests
+      type:
+        type: string
+        description: Endpoint identifier
+      user:
+        type: integer
+        description: ID of the authenticated user
+  session:
+    type: object
+    required:
+      - email
+      - password
+      - type
+    properties:
+      email:
+        type: string
+        description: The email of the authenticating user
+        pattern: "@"
+      password:
+        type: string
+        description: the password of the authenticating user
+        format: password
+        minLength: 6
+      type:
+        type: string
+        description: Endpoint identifier
+        default: sessions
+  type:
+    type: string
+    format: freeform
+    description: "Type of resource. IE: \"addresses\"."
+  uri:
+    type: string
+    format: url
+    description: "Link to uri . IE: \"http://test.host/api/addresses/172176\"."
+  uri_with_pagination:
+    type: string
+    format: url
+    description: "Link to uri with pagination query params?page%5Bnumber%5D=1&page%5Bsize%5D=10 . IE: \"http://test.host/api/addresses/172176\"."
+  created_at:
+    type: string
+    format: timestamp
+    description: "<p>Created at datetime.</p>\n<p>Example: \"2015-01-20T08:40:10.686-08:00\".</p>\n"
+  id:
+    type: string
+    format: zid
+    description: "Resource id, ie: \"25\"."
+  scheduled_for:
+    type: string
+    format: dateTime
+    description: "ISO formatted date, ex '2015-04-28T10:00:00.000-07:00'"
+  image_url:
+    type: string
+    format: url
+    description: "<p>Image URL.</p>\n<p>Example: \"http://example.com/image.png\".</p>\n"
+  updated_at:
+    type: string
+    format: timestamp
+    description: "<p>Updated at datetime.</p>\n<p>Example: \"2015-01-20T08:40:10.686-08:00\".</p>\n"
+  zid:
+    type: string
+    format: zid
+    description: "<p>ZID. A string that is a secure random 32-character hex string.</p>\n<p>Example: \"e25ade5d2cf38e7ca70c72cf0a432ba4\".</p>"
+  error:
+    type: object
+    required:
+      - status
+      - title
+    properties:
+      id:
+        description: A unique identifier for this particular occurance of the error
+        type: string
+      href:
+        description: A url the may yield further details about this particular occurance of the error
+        type: string
+      status:
+        description: "The HTTP status code applicable to this problem, expressed as a string value."
+        type: string
+      code:
+        description: "An application-specific error code, expressed as a string value."
+        type: string
+      title:
+        description: "A short, human-readable summary of the problem. It SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization."
+        type: string
+      detail:
+        description: A human-readable explanation specific to this occurrence of the problem.
+        type: string
+  errors:
+    type: object
+    required:
+      - errors
+    properties:
+      errors:
+        type: array
+        items:
+          $ref: "#/definitions/error"
+  items:
+    properties:
+      id:
+        $ref: "#/definitions/id"
+      zid:
+        $ref: "#/definitions/zid"
+      created_at:
+        $ref: "#/definitions/created_at"
+      updated_at:
+        $ref: "#/definitions/updated_at"
+      deleted_at:
+        $ref: "#/definitions/deleted_at"
+      image_url:
+        $ref: "#/definitions/image_url"
+  sessions:
+    properties:
+      xid:
+        type: string
+        format: xid
+      created_at:
+        type: string
+        format: timestamp
+  events:
+    properties:
+      id:
+        $ref: "#/definitions/id"
+      xid:
+        $ref: "#/definitions/xid"
+      created_at:
+        $ref: "#/definitions/created_at"
+      updated_at:
+        $ref: "#/definitions/updated_at"
+      name:
+        description: Name.
+        type: string
+        format: freeform
+      description:
+        description: Description.
+        type: string
+        format: freeform
+      image_url:
+        $ref: "#/definitions/image_url"
+  users:
+    properties:
+      id:
+        $ref: "#/definitions/id"
+      zid:
+        $ref: "#/definitions/zid"
+      created_at:
+        $ref: "#/definitions/created_at"
+      updated_at:
+        $ref: "#/definitions/updated_at"
+      deleted_at:
+        $ref: "#/definitions/deleted_at"
+      name:
+        type: string
+        format: freeform
+        description: "<p>Name.</p>\n<p>Example: \"Alice Anderson\".</p>\n"
+      note:
+        type: string
+        format: email
+        description: "<p>Note.</p>\n<p>Example: \"alice@example.com\".</p>\n"
+responses:
+  error:
+    description: Error
+    schema:
+      $ref: "#/definitions/errors"
+>>>>>>> Add more examples
